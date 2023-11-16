@@ -54,11 +54,6 @@ if(!is_undef(debug_lib)) {
 
 }
 
-echo("\n
-\nmcube usage:
-\n\tmodule mcube(size = [0, 0, 0], center = false, align = undef, chamfer = 0, debug_lib = false, color = undef)
-\n
-\n
-");
+
 
 // EOF
