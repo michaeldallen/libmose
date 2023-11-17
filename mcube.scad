@@ -6,38 +6,38 @@
 
 module mcube(size = 1, center = false, chamfer = undef, color = undef) {
 
-    assert(is_undef(center) || is_bool(center) || (is_list(center) && len(center) == 3), "center must be 'undef' or 'bool' or 'vector[3]'");
-
-    module cubey(size, chamfer) {
-        
-        if(is_undef(chamfer) || chamfer == 0) { 
-            cube(final_size);
+    module cubey(_size, _chamfer) {
+        if(is_undef(_chamfer) || _chamfer == 0) { 
+            cube(size);
         } else {
             hull() {
-                translate([size.x / 2, size.y / 2, size.z / 2]) {
-                    cube([size.x              , size.y - chamfer * 2, size.z - chamfer * 2], center = true); // x axis
-                    cube([size.x - chamfer * 2, size.y              , size.z - chamfer * 2], center = true); // y axis
-                    cube([size.x - chamfer * 2, size.y - chamfer * 2, size.z              ], center = true); // z axis
+                translate([_size.x / 2, _size.y / 2, _size.z / 2]) {
+                    cube([_size.x               , _size.y - _chamfer * 2, _size.z - _chamfer * 2], center = true); // x axis
+                    cube([_size.x - _chamfer * 2, _size.y               , _size.z - _chamfer * 2], center = true); // y axis
+                    cube([_size.x - _chamfer * 2, _size.y - _chamfer * 2, _size.z               ], center = true); // z axis
                 }
             }
         }
     }
 
 
+    assert(is_num(size) || (is_list(size) && len(size) == 3), "size must be 'num' or 'list[3]'");
     final_size = is_num(size) ? [size, size, size] : size;
     
+
+    assert(is_bool(center) || (is_list(center) && len(center) == 3), "center must be 'bool' or 'list[3]'");
     if(is_bool(center)) {
         translate([center ? -final_size.x / 2 : 0, center ? -final_size.y / 2 : 0, center ? -final_size.z / 2 : 0]) {
-            cubey(size = final_size, chamfer = chamfer);
+            cubey(final_size, _chamfer = chamfer);
         }
-    }
-    if(is_list(center)) { 
+    } else {
         translate([(center.x / 2) * final_size.x, (center.y / 2) * final_size.y, (center.z / 2) * final_size.z]) {
             translate([-final_size.x / 2, -final_size.y / 2, -final_size.z / 2]) {
-                cubey(size = final_size, chamfer = chamfer);
+                cubey(final_size, chamfer);
             }
         }
     }
+
 
 }
 
@@ -45,7 +45,7 @@ module mcube(size = 1, center = false, chamfer = undef, color = undef) {
 // test parts
 color("red")     cube(  4                              );
 color("green")  mcube(  5,         true, chamfer = 1   );
-color("pink")   mcube(  5,        false, chamfer = 1   );
+color("pink")   mcube(  5,             , chamfer = 1   );
 color("blue")   mcube(  5, [-1, -1, -1], chamfer = 1   );
 color("orange") mcube(4.5,         true, chamfer = 0.25);
 
