@@ -8,6 +8,6 @@ default_chamfer = default_wall_thickness / 4;
 
 default_size = 10;
 
-manifold_overlap = 0.01;
+default_manifold_overlap = 0.01;
 
 
