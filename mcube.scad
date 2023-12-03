@@ -29,11 +29,7 @@ module mcube(size = default_size, center = false, chamfer = undef, color = undef
     _manifold_overlap = manifold_overlap ? default_manifold_overlap : 0;
     
     assert(is_num(size) || (is_list(size) && len(size) == 3), "size must be 'num' or 'array[3]'");
-    _size = 
-        is_num(size) 
-        ? [size + _manifold_overlap, size + _manifold_overlap, size + _manifold_overlap] 
-        : size + _manifold_overlap;
-    
+    _size = mlist3(size) + mlist3(_manifold_overlap);
 
     mcenter(center, _size) {
         mcolor(color) {
@@ -46,7 +42,7 @@ module mcube(size = default_size, center = false, chamfer = undef, color = undef
 
 // test parts
                 mcube(  5,         true, chamfer = 1   , color =  "green");
-color("pink")   mcube(  6                                                );
+color("pink")   mcube(  [6,6,6]                                          );
                 mcube(  5, [-1, -1, -1], chamfer = 1   , color = "orange");
                 mcube(4.5,         true, chamfer = 0.25                  );
 
