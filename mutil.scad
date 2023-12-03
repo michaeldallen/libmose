@@ -1,8 +1,7 @@
-module mcenter(center = true) {
+module mcenter(center, _size) {
     
     assert(is_bool(center) || (is_list(center) && len(center) == 3), "center must be 'bool' or 'array[3]'");
     
-
     _translate = 
         is_bool(center) 
         ? [center ? -_size.x / 2 : 0, center ? -_size.y / 2 : 0, center ? -_size.z / 2 : 0] 
@@ -11,4 +10,5 @@ module mcenter(center = true) {
     translate(_translate) {
         children();
     }
+
 }
