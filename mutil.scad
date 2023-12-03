@@ -12,3 +12,15 @@ module mcenter(center, _size) {
     }
 
 }
+
+
+module mcolor(color) { 
+    
+        if(is_undef(color)) {
+            children();
+        } else {
+            color(color) {
+                children();
+            }
+        }
+    }
