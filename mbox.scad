@@ -4,7 +4,7 @@
 
 include <mdefaults.scad>;
 
-module mbox(size = [inch, inch, inch, 0], 
+module mbox(size = [default_size, default_size, default_size, ], 
         center = true, 
         wall_thickness = default_wall_thickness, 
         chamfer = default_chamfer, 
