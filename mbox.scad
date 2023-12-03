@@ -4,7 +4,10 @@
 
 include <mdefaults.scad>;
 
-module mbox(size = [default_size, default_size, default_size, ], 
+use <mutil.scad>;
+use <mcube.scad>;
+
+module mbox(size = default_size, 
         center = true, 
         wall_thickness = default_wall_thickness, 
         chamfer = default_chamfer, 
@@ -13,29 +16,29 @@ module mbox(size = [default_size, default_size, default_size, ],
         ypos = true,
         yneg = true,
         zpos = true,
-        zneg = true) {
+        zneg = true,
+        manifold_overlap = false) {
     
-    _chamfer = chamfer;
-
-    final_align = center ? [0, 0, 0] : align;
-
-    translate([(dim.x / 2) * final_align.x, (dim.y / 2) * final_align.y, (dim.z / 2) * final_align.z]) {
-
-echo("final_align.x", final_align.x);
+    assert(is_num(size) || (is_list(size) && len(size) == 3), "size must be 'num' or 'array[3]'");
+    _size = mlist3(size + (manifold_overlap ? default_manifold_overlap : 0));
 
 
-if(xpos) translate([ dim.x / 2,          0,          0]) chamfered_wall([wall_thickness,          dim.y,          dim.z], align = [-1,  0,  0], chamfer = chamfer);
-if(xneg) translate([-dim.x / 2,          0,          0]) chamfered_wall([wall_thickness,          dim.y,          dim.z], align = [ 1,  0,  0], chamfer = chamfer);
+
+
+
+    if(xpos) translate([ _size.x / 2,          0,          0]) mcube([wall_thickness,          _size.y,          _size.z], center = [-1,  0,  0], chamfer = chamfer);
+    if(xneg) translate([-_size.x / 2,          0,          0]) mcube([wall_thickness,          _size.y,          _size.z], center = [ 1,  0,  0], chamfer = chamfer);
         
-if(ypos) translate([         0,  dim.y / 2,          0]) chamfered_wall([         dim.x, wall_thickness,          dim.z], align = [ 0, -1,  0], chamfer = chamfer);
-if(yneg) translate([         0, -dim.y / 2,          0]) chamfered_wall([         dim.x, wall_thickness,          dim.z], align = [ 0,  1,  0], chamfer = chamfer);
+            
 
-if(zpos) translate([         0,          0,  dim.z / 2]) chamfered_wall([         dim.x,          dim.y, wall_thickness], align = [ 0,  0, -1], chamfer = chamfer);
-if(zneg) translate([         0,          0, -dim.z / 2]) chamfered_wall([         dim.x,          dim.y, wall_thickness], align = [ 0,  0,  1], chamfer = chamfer);
+    if(ypos) translate([         0,  _size.y / 2,          0]) mcube([         _size.x, wall_thickness,          _size.z], center = [ 0, -1,  0], chamfer = chamfer);
+    if(yneg) translate([         0, -_size.y / 2,          0]) mcube([         _size.x, wall_thickness,          _size.z], center = [ 0,  1,  0], chamfer = chamfer);
+
+    if(zpos) translate([         0,          0,  _size.z / 2]) mcube([         _size.x,          _size.y, wall_thickness], center = [ 0,  0, -1], chamfer = chamfer);
+    if(zneg) translate([         0,          0, -_size.z / 2]) mcube([         _size.x,          _size.y, wall_thickness], center = [ 0,  0,  1], chamfer = chamfer);
 
 
-    }
+
 }
 
-// cube(size = [x,y,z], center = true/false);
-// cube(size =  x ,     center = true/false);
+mbox(xpos = false);
