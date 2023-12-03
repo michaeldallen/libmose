@@ -17,20 +17,23 @@ module mbox(size = default_size,
         yneg = true,
         zpos = true,
         zneg = true,
-        manifold_overlap = false) {
+        manifold_underlap = false,
+        manifold_overlap = false,
+        color = undef) {
     
     assert(is_num(size) || (is_list(size) && len(size) == 3), "size must be 'num' or 'array[3]'");
-    _size = mlist3(size + (manifold_overlap ? default_manifold_overlap : 0));
+    _size = mlist3(size) + mlist3(manifold_overlap ? default_manifold_overlap : 0) - mlist3(manifold_underlap ? default_manifold_overlap : 0);
 
-    if(xpos) translate([ _size.x / 2,            0,            0]) mcube([wall_thickness,        _size.y,        _size.z], center = [-1,  0,  0], chamfer = chamfer);
-    if(xneg) translate([-_size.x / 2,            0,            0]) mcube([wall_thickness,        _size.y,        _size.z], center = [ 1,  0,  0], chamfer = chamfer);
+    if(xpos) translate([ _size.x / 2,            0,            0]) mcube([wall_thickness,        _size.y,        _size.z], center = [-1,  0,  0], chamfer = chamfer, color = color);
+    if(xneg) translate([-_size.x / 2,            0,            0]) mcube([wall_thickness,        _size.y,        _size.z], center = [ 1,  0,  0], chamfer = chamfer, color = color);
 
-    if(ypos) translate([           0,  _size.y / 2,            0]) mcube([       _size.x, wall_thickness,        _size.z], center = [ 0, -1,  0], chamfer = chamfer);
-    if(yneg) translate([           0, -_size.y / 2,            0]) mcube([       _size.x, wall_thickness,        _size.z], center = [ 0,  1,  0], chamfer = chamfer);
+    if(ypos) translate([           0,  _size.y / 2,            0]) mcube([       _size.x, wall_thickness,        _size.z], center = [ 0, -1,  0], chamfer = chamfer, color = color);
+    if(yneg) translate([           0, -_size.y / 2,            0]) mcube([       _size.x, wall_thickness,        _size.z], center = [ 0,  1,  0], chamfer = chamfer, color = color);
 
-    if(zpos) translate([           0,            0,  _size.z / 2]) mcube([       _size.x,        _size.y, wall_thickness], center = [ 0,  0, -1], chamfer = chamfer);
-    if(zneg) translate([           0,            0, -_size.z / 2]) mcube([       _size.x,        _size.y, wall_thickness], center = [ 0,  0,  1], chamfer = chamfer);
+    if(zpos) translate([           0,            0,  _size.z / 2]) mcube([       _size.x,        _size.y, wall_thickness], center = [ 0,  0, -1], chamfer = chamfer, color = color);
+    if(zneg) translate([           0,            0, -_size.z / 2]) mcube([       _size.x,        _size.y, wall_thickness], center = [ 0,  0,  1], chamfer = chamfer, color = color);
 
 }
 
-mbox(xpos = false);
+mbox(xpos = false, color = "orange", manifold_underlap = true);
+mbox([default_size * 1.5, default_size, default_size], xpos = false, xneg = false, wall_thickness = 1, chamfer = .25, color = "red");

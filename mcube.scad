@@ -8,7 +8,7 @@ include <mdefaults.scad>;
 
 use <mutil.scad>;
 
-module mcube(size = default_size, center = false, chamfer = undef, color = undef, manifold_overlap = false) {
+module mcube(size = default_size, center = false, chamfer = undef, color = undef, manifold_underlap = false, manifold_overlap = false) {
 
     module cubey(cubey_size, _chamfer) {
 
@@ -25,11 +25,9 @@ module mcube(size = default_size, center = false, chamfer = undef, color = undef
         }
     }
 
-
-    _manifold_overlap = manifold_overlap ? default_manifold_overlap : 0;
     
     assert(is_num(size) || (is_list(size) && len(size) == 3), "size must be 'num' or 'array[3]'");
-    _size = mlist3(size) + mlist3(_manifold_overlap);
+    _size = mlist3(size) + mlist3(manifold_overlap ? default_manifold_overlap : 0) - mlist3(manifold_underlap ? default_manifold_overlap : 0);
 
     mcenter(center, _size) {
         mcolor(color) {
