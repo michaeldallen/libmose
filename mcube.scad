@@ -27,30 +27,26 @@ module mcube(size = default_size, center = false, chamfer = undef, color = undef
     _manifold_overlap = manifold_overlap ? default_manifold_overlap : 0;
     
     assert(is_num(size) || (is_list(size) && len(size) == 3), "size must be 'num' or 'array[3]'");
-    _size = is_num(size) ? [size + _manifold_overlap, size + _manifold_overlap, size + _manifold_overlap] : size + _manifold_overlap;
+    _size = 
+        is_num(size) 
+        ? [size + _manifold_overlap, size + _manifold_overlap, size + _manifold_overlap] 
+        : size + _manifold_overlap;
     
 
     assert(is_bool(center) || (is_list(center) && len(center) == 3), "center must be 'bool' or 'array[3]'");
-    if(is_bool(center)) {
-        translate([center ? -_size.x / 2 : 0, center ? -_size.y / 2 : 0, center ? -_size.z / 2 : 0]) {
-            if(is_undef(color)) {
+    
+
+    _translate = 
+        is_bool(center) 
+        ? [center ? -_size.x / 2 : 0, center ? -_size.y / 2 : 0, center ? -_size.z / 2 : 0] 
+        : [((center.x / 2) * _size.x) - (_size.x / 2), ((center.y / 2) * _size.y) - (_size.y / 2), ((center.z / 2) * _size.z) -(_size.z / 2)];
+
+    translate(_translate) {
+        if(is_undef(color)) {
+            cubey(_size, _chamfer = chamfer);
+        } else {
+            color(color) {
                 cubey(_size, _chamfer = chamfer);
-            } else {
-                color(color) {
-                    cubey(_size, _chamfer = chamfer);
-                }
-            }
-        }
-    } else {
-        translate([(center.x / 2) * _size.x, (center.y / 2) * _size.y, (center.z / 2) * _size.z]) {
-            translate([-_size.x / 2, -_size.y / 2, -_size.z / 2]) {
-                if(is_undef(color)) {
-                    cubey(_size, _chamfer = chamfer);
-                } else {
-                    color(color) {
-                        cubey(_size, _chamfer = chamfer);
-                    }
-                }
             }
         }
     }
