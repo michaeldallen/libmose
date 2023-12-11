@@ -25,14 +25,25 @@ module mbox(size = default_size,
     _size = mlist3(size) + mlist3(manifold_overlap ? default_manifold_overlap : 0) - mlist3(manifold_underlap ? default_manifold_overlap : 0);
     _wall = wall_thickness + (manifold_overlap ? default_manifold_overlap * 2 : 0) - (manifold_underlap ? default_manifold_overlap * 2 : 0);
 
-    if(xpos) translate([ _size.x / 2,            0,            0]) mcube([_wall,        _size.y,        _size.z], center = [-1,  0,  0], chamfer = chamfer, color = color);
-    if(xneg) translate([-_size.x / 2,            0,            0]) mcube([_wall,        _size.y,        _size.z], center = [ 1,  0,  0], chamfer = chamfer, color = color);
+    mcenter(center, _size) {
+        mcolor(color) {
 
-    if(ypos) translate([           0,  _size.y / 2,            0]) mcube([       _size.x, _wall,        _size.z], center = [ 0, -1,  0], chamfer = chamfer, color = color);
-    if(yneg) translate([           0, -_size.y / 2,            0]) mcube([       _size.x, _wall,        _size.z], center = [ 0,  1,  0], chamfer = chamfer, color = color);
 
-    if(zpos) translate([           0,            0,  _size.z / 2]) mcube([       _size.x,        _size.y, _wall], center = [ 0,  0, -1], chamfer = chamfer, color = color);
-    if(zneg) translate([           0,            0, -_size.z / 2]) mcube([       _size.x,        _size.y, _wall], center = [ 0,  0,  1], chamfer = chamfer, color = color);
+            translate([_size.x / 2, _size.y / 2, _size.z / 2]) { // follow center semantics from native cube()
+                
+                if(xpos) translate([ _size.x / 2,            0,            0]) mcube([_wall,        _size.y,        _size.z], center = [-1,  0,  0], chamfer = chamfer, color = color);
+                if(xneg) translate([-_size.x / 2,            0,            0]) mcube([_wall,        _size.y,        _size.z], center = [ 1,  0,  0], chamfer = chamfer, color = color);
+
+                if(ypos) translate([           0,  _size.y / 2,            0]) mcube([       _size.x, _wall,        _size.z], center = [ 0, -1,  0], chamfer = chamfer, color = color);
+                if(yneg) translate([           0, -_size.y / 2,            0]) mcube([       _size.x, _wall,        _size.z], center = [ 0,  1,  0], chamfer = chamfer, color = color);
+
+                if(zpos) translate([           0,            0,  _size.z / 2]) mcube([       _size.x,        _size.y, _wall], center = [ 0,  0, -1], chamfer = chamfer, color = color);
+                if(zneg) translate([           0,            0, -_size.z / 2]) mcube([       _size.x,        _size.y, _wall], center = [ 0,  0,  1], chamfer = chamfer, color = color);
+            }
+
+        }
+    }
+
 
 }
 
