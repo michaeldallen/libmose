@@ -1,41 +1,34 @@
 // BOF
 // NOSTL
 
+use <libmose/mutil.scad>
 
-module mcylinder(h = 10, d = 0, d1 = 0, d2 = 0, center = false, align = [0, 0, 0], chamfer = 0, color = undef) {
-    
-    if(d == 0) {
-       assert(chamfer == 0);
-    } else {
-        assert(d1 == 0 && d2 == 0);
-    }
-    translate([(d / 2) * align.x, (d / 2) * align.y, (h / 2) * (align.z - 1)]) {
+module mcylinder(h = 10, d = 0, d1 = 0, d2 = 0, center = false, chamfer = 0, color = undef) {
 
-    if(d == 0) {
-        color(color) {
-            cylinder(h = h, d1 = d1, d2 = d2, center = center);
-        }
-    } else {
-        if (chamfer == 0) {
-            color(color) {
-                cylinder(h = h, d = d, center = center);
-            }
+    mcolor(color) {    
+        
+        if(d == 0) {
+           assert(chamfer == 0);
         } else {
-            hull() {
-                color(color ? color : "blue") { 
+            assert(d1 == 0 && d2 == 0);
+        }
+
+        if(d == 0) {
+            cylinder(h = h, d1 = d1, d2 = d2, center = center);
+        } else {
+            if (chamfer == 0) {
+                cylinder(h = h, d = d, center = center);
+            } else {
+                hull() {
                     cylinder(h = h, d = d - chamfer * 2, center = center);
-                }
-                color(color ? color : "red") {
                     translate([0, 0, center ? 0 : chamfer]) {
                         cylinder(h = h - chamfer * 2, d = d, center = center);
                     }
                 }
             }
-        }
-    } 
-}   
+        } 
+    }
 }
-
 
     
 
@@ -57,3 +50,4 @@ echo("\n
 
 
 // EOF
+//inch = 25.4; mcylinder(d = inch / 4, h = 10, $fn = 60, center = true, chamfer = inch / 8 / 4, color = "lightblue");
