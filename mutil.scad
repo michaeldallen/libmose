@@ -34,3 +34,6 @@ function mlist3(v) = (
 );
 
 
+function mprecision(value, precision) = (
+   round(value * pow(10, precision)) /  pow(10, precision)
+);
