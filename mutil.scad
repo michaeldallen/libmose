@@ -37,3 +37,13 @@ function mlist3(v) = (
 function mprecision(value, precision) = (
    round(value * pow(10, precision)) /  pow(10, precision)
 );
+
+
+function mm2i(mm) = (
+    mm / 25.4
+);
+
+function i2mm(i) = (
+    i * 25.4
+);
+
