@@ -3,6 +3,7 @@
 
 use <libmose/mutil.scad>
 
+    
 module mcylinder(h = 10, d = 0, d1 = 0, d2 = 0, center = false, chamfer = 0, color = undef) {
 
 
@@ -34,9 +35,13 @@ module mcylinder(h = 10, d = 0, d1 = 0, d2 = 0, center = false, chamfer = 0, col
                     if (chamfer == 0) {
                         cylinder(h = h, d = d, center = true);
                     } else {
-                        hull() {
-                            cylinder(h = h, d = d - chamfer * 2, center = true);
-                            cylinder(h = h - chamfer * 2, d = d, center = true);
+
+                        color("firebrick") cylinder(h = h - abs(chamfer) * 2, d = d, center = true);
+                        for (z = [-1, 1]) { 
+                            color("pink") hull() {                        
+                                translate([0, 0, z * ((h/2) - 0.01/2)]) cylinder(h = 0.01, d = d - chamfer * 2, center = true);
+                                translate([0, 0, z * (h/2 - abs(chamfer))]) cylinder(h = 0.01, d = d, center = true);
+                            }
                         }
                     }
                 }
@@ -51,14 +56,6 @@ module mcylinder(h = 10, d = 0, d1 = 0, d2 = 0, center = false, chamfer = 0, col
 
 
 
-echo("\n
-\nmcylinder usage:
-\n\tmodule mcylinder(h = 10, d = 0, d1 = 0, d2 = 0, center = false, chamfer = 0)
-\n
-\n
-");
-
-
 // EOF
 inch = 25.4; 
 
@@ -68,6 +65,7 @@ $fn = 60;
 
 translate([-20, 0, 0])                     mcylinder(d1 = inch / 4, d2 = inch / 8, h = 10, center = [0,  1,  1],                         color = "deeppink" );
                                            mcylinder( d = inch / 4,                h = 10, center = [0, -1, -1], chamfer = inch / 8 / 4, color = "lightblue");
+                                           mcylinder( d = inch / 4,        h = 10, center = [0, -1,1], chamfer = -inch / 8 / 4, color = "royalblue");
 translate([-40, 0, 0]) color("lightgreen")  cylinder( d = inch / 4,                h = 10, center = true                                                    );
 
 translate([20, 0, 0]) mcylinder(d1 = inch / 4, d2 = inch / 6, h = 10, $fn = 60, center = false, color = "orange");
