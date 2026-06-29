@@ -8,7 +8,24 @@
   "remoteEnv": {
     "OPENSCADPATH": "${HOME}/openscad"
   },
-  
-  // Automatically initialize git lfs and install OpenSCAD when the container starts
-  "postCreateCommand": "git lfs install && sudo apt-get update && sudo apt-get install -y openscad"
+
+  // install 
+  // * git LFS
+  // * OpenSCAD
+  // * antigravity CLI
+  // when the container starts
+  //
+  "postCreateCommand":     "git lfs install && sudo apt-get update && sudo apt-get install -y openscad && curl -fsSL https://antigravity.google/cli/install.sh | bash",
+
+  // Customizes your VS Code terminal settings inside the Codespace
+  "customizations": {
+    "vscode": {
+      "settings": {
+        // Ensures your terminal looks for binaries in local user folders
+        "terminal.integrated.env.linux": {
+          "PATH": "${env:PATH}:${userHome}/.local/bin"
+        }
+      }
+    }
+  }
 }
