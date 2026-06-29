@@ -1,0 +1,14 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "features": {
+    "ghcr.io/devcontainers/features/git-lfs:1": {
+      "version": "latest"
+    }
+  },  
+  "remoteEnv": {
+    "OPENSCADPATH": "${HOME}/openscad"
+  },
+  
+  // Automatically initialize git lfs and install OpenSCAD when the container starts
+  "postCreateCommand": "git lfs install && sudo apt-get update && sudo apt-get install -y openscad"
+}
