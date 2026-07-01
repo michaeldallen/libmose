@@ -20,7 +20,9 @@ module mbox(size = default_size,
         manifold_underlap = false,
         manifold_overlap = false,
         color = undef) {
-    
+
+    // mbox is drawn from the outside in.  "size" is a reference to the exterior of the box; the interior empty cube is (size - (wall_thickness * 2))
+
     assert(is_num(size) || (is_list(size) && len(size) == 3), "size must be 'num' or 'array[3]'");
     _size = mlist3(size) + mlist3(manifold_overlap ? default_manifold_overlap : 0) - mlist3(manifold_underlap ? default_manifold_overlap : 0);
     _wall = wall_thickness + (manifold_overlap ? default_manifold_overlap * 2 : 0) - (manifold_underlap ? default_manifold_overlap * 2 : 0);
