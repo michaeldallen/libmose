@@ -20,8 +20,7 @@
         "github.vscode-github-actions",
         "me-dutour-mathieu.vscode-github-actions",
         "omartawfik.github-actions-vscode",
-        "ms-azuretools.vscode-containers",
-        "ms-vscode.makefile-tools"
+        "ms-azuretools.vscode-containers"
       ],
       "settings": {
         // Ensures your terminal looks for binaries in local user folders
