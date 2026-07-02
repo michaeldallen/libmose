@@ -1,6 +1,10 @@
 {
     "chat.tools.terminal.autoApprove": {
         "openscad": true,
-        "true": true
+        "true": true,
+        "/^python3 -m pytest tests/test_contracts_mutil\\.py --collect-only$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
     }
 }
