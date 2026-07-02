@@ -2,6 +2,13 @@
 
 Michael's OpenScad Extensions
 
+## Test workflow
+
+The repository now includes a lightweight OpenSCAD test harness for contract checks and render smoke tests.
+
+- Run unit tests: `python3 tests/run_tests.py`
+- Run the same suite via the convenience target: `make test`
+
 ## Getting started
 
 To make it easy for you to get started with GitLab, here's a list of recommended next steps.
